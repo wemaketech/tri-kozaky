@@ -9,17 +9,20 @@
         html,
         body {
             height: 100%;
-            width: 100%;
+            width: 100vw;
             margin: 0;
             padding: 0;
             overflow: hidden;
             display: block;
+            position: relative;
+            box-sizing: border-box;
         }
-
         iframe {
             position: absolute;
             top: 0;
             left: 0;
+            right: 0;
+            bottom: 0;
             width: 100%;
             height: 100%;
             border: none;
@@ -32,6 +35,33 @@
 
 <body>
     <iframe src="https://tri-kozaky.onepage.me/" frameborder="0" allowfullscreen></iframe>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const targetNode = document.body; // Body is usually a good place to observe for added elements
+
+            const config = { attributes: false, childList: true, subtree: true };
+
+            const callback = function (mutationsList, observer) {
+                for (let mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(node => {
+                            if (node.nodeType === 1 && node.matches('.con-kit-bar')) { // Check if it's an element node and has the class
+                                node.style.display = 'none'; // Hide it
+                            }
+                        });
+                    }
+                }
+            };
+
+            // Create an observer instance linked to the callback function
+            const observer = new MutationObserver(callback);
+
+            // Start observing the target node for configured mutations
+            observer.observe(targetNode, config);
+        });
+    </script>
+
 </body>
 
 </html>
