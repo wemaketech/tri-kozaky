@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "https://tri-kozaky.onepage.me/$1" }
+  ]
+}
